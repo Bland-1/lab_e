@@ -95,6 +95,7 @@ Q2
 
 fraction.cpp
 
+```cpp
 #include "Fraction.h"
 
 Fraction::Fraction() : m_num(0), m_den(1) {}
@@ -132,10 +133,11 @@ void Fraction::Read(std::istream& sin) {
     // Reads two integers
     sin >> m_num >> m_den;
 }
-
+```
 
 Fraction.h
 
+```cpp
 #include <iostream>
 
 class Fraction {
@@ -163,10 +165,11 @@ private:
     int m_num;
     int m_den;
 };
-
+```
 
 source.cpp
 
+```cpp
 #include "Fraction.h"
 #include <iostream>
 using namespace std;
@@ -200,13 +203,14 @@ int main(int args, char** argv)
 
     system("pause");
 }
-
+```
 
 Q3
 
 
 fraction.cpp
 
+```
 #include "Fraction.h"
 
 
@@ -253,11 +257,11 @@ std::istream& operator>>(std::istream& is, Fraction& f) {
     is >> f.m_num >> f.m_den;
     return is;
 }
-
+```
 
 fraction.h
 
-
+```
 #include <iostream>
 
 class Fraction {
@@ -280,12 +284,12 @@ private:
     int m_num;
     int m_den;
 };
-
+```
 
 source.cpp
 
 
-
+```cpp
 
 #include "Fraction.h"
 #include <iostream>
@@ -322,12 +326,12 @@ int main(int args, char** argv)
     system("pause");
     return 0;
 }
-
+```
 
 
 Q4
 
-
+```cpp
 #include <iostream>
 using namespace std;
 
@@ -351,9 +355,10 @@ int main(int, char**) {
 	system("pause");
 	return 0;
 }
+```
 
 reflection:
-When I ran the first version (Pass by Value), I was confused why a and b stayed the same even though the function code looked correct. After opening the Disassembly and Memory windows, I saw exactly why: the program was pushing the values 10 and 20 onto the stack. The function swapped those copies, but the original variables back in main were never touched.
+When I ran the first version (Pass by Value), I was confused why a and b stayed the same even though the function code looked correct. After opening the disassembly and memory windows, I saw exactly why - the program was pushing the values 10 and 20 onto the stack. The function swapped those copies, but the original variables back in main were never touched.
 
 Once I changed it to Pass by Reference (int&), the assembly code changed. Instead of pushing the numbers, it pushed the memory addresses of a and b. I followed the address in the Memory window and actually saw the numbers 0a (10) and 14 (20) flip-flop in real-time as I stepped through with F11. It made me realize that references aren't just a syntax trick; they actually change how the CPU handles the data by pointing to the original "home" of the variable instead of making a duplicate.
 
@@ -361,20 +366,22 @@ Once I changed it to Pass by Reference (int&), the assembly code changed. Instea
 Q5
 
 Return-by-Value Code:
-
-C++
+```cpp
 int clamp(int value, int low, int high) {
     if (value < low) return low;
     if (value > high) return high;
     return value;
 }
-Return-by-Reference Code:
+```
 
-C++
+Return-by-Reference Code:
+```cpp
 int& clamp(int& value, int low, int high) {
     if (value < low) return low;
     if (value > high) return high;
     return value;
 }
+```
+
 Reflection:
 Returning by value is safe because it just sends a copy of the number back. Returning by reference is dangerous here because if it returns "low" or "high", those are local variables that disappear when the function ends. My second test gave weird results because I was trying to use a memory address that wasn't valid anymore.
